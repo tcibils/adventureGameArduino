@@ -18,20 +18,36 @@ CRGB leds[NUM_LEDS];                                          // Defining leds t
 
 // LED Matrix
 // top column is from 0 to 7, bottom one from 56 to 63 (for a 8x8 matrix)
-byte LEDMatrix[numberOfRows][numberOfColumns];
+byte LEDMatrix[numberOfRows][numberOfColumns] =
+{
+  {0, 1, 1, 1, 3, 1},
+  {0, 0, 1, 3, 3, 1},
+  {1, 0, 1, 0, 1, 1},
+  {1, 0, 0, 0, 0, 1},
+  {1, 1, 1, 1, 0, 1},
+  {1, 0, 0, 2, 0, 1},
+  {1, 0, 1, 1, 0, 1},
+  {0, 0, 1, 0, 0, 1},
+  {1, 1, 1, 0, 1, 1},
+  {0, 0, 0, 0, 0, 0}
+};
 
 // Original colours for leds.
-const unsigned int Black = 0;
-const unsigned int White = 1;
-const unsigned int Geen = 2;
-const unsigned int Blue = 3;
-const unsigned int Red = 4;
+const unsigned int Wall = 0;
+const unsigned int Passage = 1;
+const unsigned int Blue = 2;
+const unsigned int Red = 3;
+const unsigned int Green = 4;
 const unsigned int Purple = 5;
 
 
 // Pin used from the arduino
-const unsigned int leftButton = A1;       // Input pin for button 1
-const unsigned int rightButton = A2;      // Input pin for button 2
+const unsigned int leftButton = A0;        // Input pin for button Left
+const unsigned int upButton = A1;          // Input pin for button Up
+const unsigned int rightButton = A3;       // Input pin for button Right
+const unsigned int downButton = A4;        // Input pin for button Down
+const unsigned int aButton = A0;           // Input pin for button A
+const unsigned int bButton = A1;           // Input pin for button B
 
 /*
 struct pointOnMatrix {
@@ -67,10 +83,10 @@ void loop() {
 
 // Makes the whole "LEDMatrix" equals to 0, i.e. each LED is off
 void clearLEDMatrix() {
-  // Just seting le LEDmatrix to Black
+  // Just seting le LEDmatrix to Wall
   for (int i = 0; i < numberOfRows; i++)  {
     for (int j = 0; j < numberOfColumns; j++) {
-      LEDMatrix[i][j] = Black;
+      LEDMatrix[i][j] = Wall;
     }
   }
 }
@@ -85,8 +101,8 @@ void outputDisplay() {
       // If we're on an even column, we're fine, everything is straightfoward
       if(columnIndex%2 == 0) {
         
-        if(LEDMatrix[rowIndex][columnIndex] == Black) {leds[(columnIndex + 1)*numberOfRows - rowIndex - 1] = CRGB::Black;}
-        if(LEDMatrix[rowIndex][columnIndex] == White) {leds[(columnIndex + 1)*numberOfRows - rowIndex - 1] = CRGB::White;}
+        if(LEDMatrix[rowIndex][columnIndex] == Wall) {leds[(columnIndex + 1)*numberOfRows - rowIndex - 1] = CRGB::White;}
+        if(LEDMatrix[rowIndex][columnIndex] == Passage) {leds[(columnIndex + 1)*numberOfRows - rowIndex - 1] = CRGB::Black;}
         if(LEDMatrix[rowIndex][columnIndex] == Green) {leds[(columnIndex + 1)*numberOfRows - rowIndex - 1] = CRGB::Green;}
         if(LEDMatrix[rowIndex][columnIndex] == Blue) {leds[(columnIndex + 1)*numberOfRows - rowIndex - 1] = CRGB::Blue;}
         if(LEDMatrix[rowIndex][columnIndex] == Red) {leds[(columnIndex + 1)*numberOfRows - rowIndex - 1] = CRGB::Red;}
@@ -94,8 +110,8 @@ void outputDisplay() {
       }
       // If we're on an uneven column, we do a mathematical trick to invert it
       else if(columnIndex%2 == 1) {
-        if(LEDMatrix[rowIndex][columnIndex] == Black) {leds[columnIndex*numberOfRows + rowIndex] = CRGB::Black;}
-        if(LEDMatrix[rowIndex][columnIndex] == White) {leds[columnIndex*numberOfRows + rowIndex] = CRGB::White;}
+        if(LEDMatrix[rowIndex][columnIndex] == Wall) {leds[columnIndex*numberOfRows + rowIndex] = CRGB::White;}
+        if(LEDMatrix[rowIndex][columnIndex] == Passage) {leds[columnIndex*numberOfRows + rowIndex] = CRGB::Black;}
         if(LEDMatrix[rowIndex][columnIndex] == Green) {leds[columnIndex*numberOfRows + rowIndex] = CRGB::Green;}
         if(LEDMatrix[rowIndex][columnIndex] == Blue) {leds[columnIndex*numberOfRows + rowIndex] = CRGB::Blue;}
         if(LEDMatrix[rowIndex][columnIndex] == Red) {leds[columnIndex*numberOfRows + rowIndex] = CRGB::Red;}
@@ -126,7 +142,6 @@ void digitalOutputDisplay() {
 
 // Updating the LED Matrix after each step
 void updateLEDMatrix() {
-
 }
 
 
