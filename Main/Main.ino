@@ -9,9 +9,9 @@
 #include "FastLED.h"
 
 // LED MATRIX CODE
-const unsigned int numberOfRows = 10;                          // Number of rows
-const unsigned int numberOfColumns = 6;                       // Number of coumns
-const unsigned int NUM_LEDS = numberOfRows * numberOfColumns; // Number of LEDs
+const unsigned byte numberOfRows = 10;                          // Number of rows
+const unsigned byte numberOfColumns = 6;                       // Number of coumns
+const unsigned byte NUM_LEDS = numberOfRows * numberOfColumns; // Number of LEDs
 
 CRGB leds[NUM_LEDS];                                          // Defining leds table for FastLed
 #define DATA_PIN 6                                            // Output pin for FastLed
@@ -139,12 +139,12 @@ byte Map[100][12] =
 };
 
 // Original colours for leds.
-const unsigned int Wall = 0;
-const unsigned int Passage = 1;
-const unsigned int Blue = 2;
-const unsigned int Red = 3;
-const unsigned int Green = 4;
-const unsigned int Purple = 5;
+const unsigned byte Wall = 0;
+const unsigned byte Passage = 1;
+const unsigned byte Blue = 2;
+const unsigned byte Red = 3;
+const unsigned byte Green = 4;
+const unsigned byte Purple = 5;
 
 
 // Pin used from the arduino
@@ -190,8 +190,8 @@ void loop() {
 // Makes the whole "LEDMatrix" equals to 0, i.e. each LED is off
 void clearLEDMatrix() {
   // Just seting le LEDmatrix to Wall
-  for (int i = 0; i < numberOfRows; i++)  {
-    for (int j = 0; j < numberOfColumns; j++) {
+  for (byte i = 0; i < numberOfRows; i++)  {
+    for (byte j = 0; j < numberOfColumns; j++) {
       LEDMatrix[i][j] = Wall;
     }
   }
@@ -200,8 +200,8 @@ void clearLEDMatrix() {
 
 // We update the physical display of the LED matrix, based on the LEDMatrix
 void outputDisplay() {
-  for(int rowIndex = 0; rowIndex < numberOfRows; rowIndex++) {
-    for(int columnIndex = 0; columnIndex < numberOfColumns; columnIndex++) {
+  for(byte rowIndex = 0; rowIndex < numberOfRows; rowIndex++) {
+    for(byte columnIndex = 0; columnIndex < numberOfColumns; columnIndex++) {
       // Useful because of the way my matrix is soldered.
       // So we'll invert one column every two compared to our digital matrix
       // If we're on an even column, we're fine, everything is straightfoward
@@ -233,8 +233,8 @@ void outputDisplay() {
 // We update the digital display of the LED matrix
 void digitalOutputDisplay() {
   Serial.print("\n We print digitally the current theoritical state of the LED Matrix : \n");
-  for (int i = 0; i < numberOfRows; i++) {
-    for (int j = 0; j < numberOfColumns; j++) {
+  for (byte i = 0; i < numberOfRows; i++) {
+    for (byte j = 0; j < numberOfColumns; j++) {
       Serial.print(LEDMatrix[i][j]);
       if (j < numberOfColumns - 1) {
         Serial.print(", ");
@@ -258,8 +258,8 @@ void endGame() {
   delay(1000);
   clearLEDMatrix();
   // We light up the rows one by one, with .2 sec of delay between each
-  for (int i = 0; i < numberOfRows; i++) {
-    for (int j = 0; j < numberOfColumns; j++) {
+  for (byte i = 0; i < numberOfRows; i++) {
+    for (byte j = 0; j < numberOfColumns; j++) {
       LEDMatrix[i][j] = Red;
     }
       outputDisplay();
