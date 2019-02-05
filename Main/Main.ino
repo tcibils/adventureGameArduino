@@ -21,12 +21,12 @@ CRGB leds[NUM_LEDS];                                          // Defining leds t
 byte LEDMatrix[numberOfRows][numberOfColumns];
 
 // Original colours for leds.
-const unsigned int empty = 0;
-const unsigned int Purple = 1;
-const unsigned int Orange = 2;
+const unsigned int Black = 0;
+const unsigned int White = 1;
+const unsigned int Geen = 2;
 const unsigned int Blue = 3;
 const unsigned int Red = 4;
-const unsigned int White = 5;
+const unsigned int Purple = 5;
 
 
 // Pin used from the arduino
@@ -67,10 +67,10 @@ void loop() {
 
 // Makes the whole "LEDMatrix" equals to 0, i.e. each LED is off
 void clearLEDMatrix() {
-  // Just seting le LEDmatrix to empty
+  // Just seting le LEDmatrix to Black
   for (int i = 0; i < numberOfRows; i++)  {
     for (int j = 0; j < numberOfColumns; j++) {
-      LEDMatrix[i][j] = empty;
+      LEDMatrix[i][j] = Black;
     }
   }
 }
@@ -85,19 +85,21 @@ void outputDisplay() {
       // If we're on an even column, we're fine, everything is straightfoward
       if(columnIndex%2 == 0) {
         
-        if(LEDMatrix[rowIndex][columnIndex] == empty) {leds[(columnIndex + 1)*numberOfRows - rowIndex - 1] = CRGB::Black;}
-        if(LEDMatrix[rowIndex][columnIndex] == purple) {leds[(columnIndex + 1)*numberOfRows - rowIndex - 1] = CRGB::Purple;}
-        if(LEDMatrix[rowIndex][columnIndex] == Orange) {leds[(columnIndex + 1)*numberOfRows - rowIndex - 1] = CRGB::Orange;}
-        if(LEDMatrix[rowIndex][columnIndex] == blue) {leds[(columnIndex + 1)*numberOfRows - rowIndex - 1] = CRGB::Blue;}
+        if(LEDMatrix[rowIndex][columnIndex] == Black) {leds[(columnIndex + 1)*numberOfRows - rowIndex - 1] = CRGB::Black;}
+        if(LEDMatrix[rowIndex][columnIndex] == White) {leds[(columnIndex + 1)*numberOfRows - rowIndex - 1] = CRGB::White;}
+        if(LEDMatrix[rowIndex][columnIndex] == Green) {leds[(columnIndex + 1)*numberOfRows - rowIndex - 1] = CRGB::Green;}
+        if(LEDMatrix[rowIndex][columnIndex] == Blue) {leds[(columnIndex + 1)*numberOfRows - rowIndex - 1] = CRGB::Blue;}
         if(LEDMatrix[rowIndex][columnIndex] == Red) {leds[(columnIndex + 1)*numberOfRows - rowIndex - 1] = CRGB::Red;}
+        if(LEDMatrix[rowIndex][columnIndex] == Purple) {leds[(columnIndex + 1)*numberOfRows - rowIndex - 1] = CRGB::Purple;}
       }
       // If we're on an uneven column, we do a mathematical trick to invert it
       else if(columnIndex%2 == 1) {
-        if(LEDMatrix[rowIndex][columnIndex] == empty) {leds[columnIndex*numberOfRows + rowIndex] = CRGB::Black;}
-        if(LEDMatrix[rowIndex][columnIndex] == purple) {leds[columnIndex*numberOfRows + rowIndex] = CRGB::Purple;}
-        if(LEDMatrix[rowIndex][columnIndex] == Orange) {leds[columnIndex*numberOfRows + rowIndex] = CRGB::Orange;}
-        if(LEDMatrix[rowIndex][columnIndex] == blue) {leds[columnIndex*numberOfRows + rowIndex] = CRGB::Blue;}
+        if(LEDMatrix[rowIndex][columnIndex] == Black) {leds[columnIndex*numberOfRows + rowIndex] = CRGB::Black;}
+        if(LEDMatrix[rowIndex][columnIndex] == White) {leds[columnIndex*numberOfRows + rowIndex] = CRGB::White;}
+        if(LEDMatrix[rowIndex][columnIndex] == Green) {leds[columnIndex*numberOfRows + rowIndex] = CRGB::Green;}
+        if(LEDMatrix[rowIndex][columnIndex] == Blue) {leds[columnIndex*numberOfRows + rowIndex] = CRGB::Blue;}
         if(LEDMatrix[rowIndex][columnIndex] == Red) {leds[columnIndex*numberOfRows + rowIndex] = CRGB::Red;}
+        if(LEDMatrix[rowIndex][columnIndex] == Purple) {leds[columnIndex*numberOfRows + rowIndex] = CRGB::Purple;}
       }
     }
   }
