@@ -9,16 +9,16 @@
 #include "FastLED.h"
 
 // LED MATRIX CODE
-const byte numberOfRows = 10;                          // Number of rows
-const byte numberOfColumns = 6;                       // Number of coumns
-const byte NUM_LEDS = numberOfRows * numberOfColumns; // Number of LEDs
+const byte displayNumberOfRows = 10;                          // Number of rows
+const byte displayNumberOfColumns = 6;                       // Number of coumns
+const byte NUM_LEDS = displayNumberOfRows * displayNumberOfColumns; // Number of LEDs
 
 CRGB leds[NUM_LEDS];                                          // Defining leds table for FastLed
 #define DATA_PIN 6                                            // Output pin for FastLed
 
 // LED Matrix
 // top column is from 0 to 7, bottom one from 56 to 63 (for a 8x8 matrix)
-byte LEDMatrix[numberOfRows][numberOfColumns] =
+byte LEDMatrix[displayNumberOfRows][displayNumberOfColumns] =
 {
   {0, 1, 1, 1, 3, 1},
   {0, 0, 1, 3, 3, 1},
@@ -189,7 +189,7 @@ struct pointOnMatrix {
   int columnCoordinate;
 };
 
-pointOnMatrix adventurerPositionn = {mapNumberOfRows - 4, mapNumberOfColumns - 4};
+pointOnMatrix adventurerPosition = {mapNumberOfRows - 4, mapNumberOfColumns - 4};
 
 unsigned long lastMillis = 0;
 
@@ -217,11 +217,24 @@ void loop() {
 }
 
 
+
+void centerMap() {
+  for (byte i = 0; i < displayNumberOfRows; i++)  {
+    for (byte j = 0; j < displayNumberOfColumns; j++) {
+
+      
+    }
+  }
+
+  
+}
+
+
 // Makes the whole "LEDMatrix" equals to 0, i.e. each LED is off
 void clearLEDMatrix() {
   // Just seting le LEDmatrix to Wall
-  for (byte i = 0; i < numberOfRows; i++)  {
-    for (byte j = 0; j < numberOfColumns; j++) {
+  for (byte i = 0; i < displayNumberOfRows; i++)  {
+    for (byte j = 0; j < displayNumberOfColumns; j++) {
       LEDMatrix[i][j] = Wall;
     }
   }
@@ -230,28 +243,28 @@ void clearLEDMatrix() {
 
 // We update the physical display of the LED matrix, based on the LEDMatrix
 void outputDisplay() {
-  for(byte rowIndex = 0; rowIndex < numberOfRows; rowIndex++) {
-    for(byte columnIndex = 0; columnIndex < numberOfColumns; columnIndex++) {
+  for(byte rowIndex = 0; rowIndex < displayNumberOfRows; rowIndex++) {
+    for(byte columnIndex = 0; columnIndex < displayNumberOfColumns; columnIndex++) {
       // Useful because of the way my matrix is soldered.
       // So we'll invert one column every two compared to our digital matrix
       // If we're on an even column, we're fine, everything is straightfoward
       if(columnIndex%2 == 0) {
         
-        if(LEDMatrix[rowIndex][columnIndex] == Wall) {leds[(columnIndex + 1)*numberOfRows - rowIndex - 1] = CRGB::White;}
-        if(LEDMatrix[rowIndex][columnIndex] == Passage) {leds[(columnIndex + 1)*numberOfRows - rowIndex - 1] = CRGB::Black;}
-        if(LEDMatrix[rowIndex][columnIndex] == Green) {leds[(columnIndex + 1)*numberOfRows - rowIndex - 1] = CRGB::Green;}
-        if(LEDMatrix[rowIndex][columnIndex] == Blue) {leds[(columnIndex + 1)*numberOfRows - rowIndex - 1] = CRGB::Blue;}
-        if(LEDMatrix[rowIndex][columnIndex] == Red) {leds[(columnIndex + 1)*numberOfRows - rowIndex - 1] = CRGB::Red;}
-        if(LEDMatrix[rowIndex][columnIndex] == Purple) {leds[(columnIndex + 1)*numberOfRows - rowIndex - 1] = CRGB::Purple;}
+        if(LEDMatrix[rowIndex][columnIndex] == Wall) {leds[(columnIndex + 1)*displayNumberOfRows - rowIndex - 1] = CRGB::White;}
+        if(LEDMatrix[rowIndex][columnIndex] == Passage) {leds[(columnIndex + 1)*displayNumberOfRows - rowIndex - 1] = CRGB::Black;}
+        if(LEDMatrix[rowIndex][columnIndex] == Green) {leds[(columnIndex + 1)*displayNumberOfRows - rowIndex - 1] = CRGB::Green;}
+        if(LEDMatrix[rowIndex][columnIndex] == Blue) {leds[(columnIndex + 1)*displayNumberOfRows - rowIndex - 1] = CRGB::Blue;}
+        if(LEDMatrix[rowIndex][columnIndex] == Red) {leds[(columnIndex + 1)*displayNumberOfRows - rowIndex - 1] = CRGB::Red;}
+        if(LEDMatrix[rowIndex][columnIndex] == Purple) {leds[(columnIndex + 1)*displayNumberOfRows - rowIndex - 1] = CRGB::Purple;}
       }
       // If we're on an uneven column, we do a mathematical trick to invert it
       else if(columnIndex%2 == 1) {
-        if(LEDMatrix[rowIndex][columnIndex] == Wall) {leds[columnIndex*numberOfRows + rowIndex] = CRGB::White;}
-        if(LEDMatrix[rowIndex][columnIndex] == Passage) {leds[columnIndex*numberOfRows + rowIndex] = CRGB::Black;}
-        if(LEDMatrix[rowIndex][columnIndex] == Green) {leds[columnIndex*numberOfRows + rowIndex] = CRGB::Green;}
-        if(LEDMatrix[rowIndex][columnIndex] == Blue) {leds[columnIndex*numberOfRows + rowIndex] = CRGB::Blue;}
-        if(LEDMatrix[rowIndex][columnIndex] == Red) {leds[columnIndex*numberOfRows + rowIndex] = CRGB::Red;}
-        if(LEDMatrix[rowIndex][columnIndex] == Purple) {leds[columnIndex*numberOfRows + rowIndex] = CRGB::Purple;}
+        if(LEDMatrix[rowIndex][columnIndex] == Wall) {leds[columnIndex*displayNumberOfRows + rowIndex] = CRGB::White;}
+        if(LEDMatrix[rowIndex][columnIndex] == Passage) {leds[columnIndex*displayNumberOfRows + rowIndex] = CRGB::Black;}
+        if(LEDMatrix[rowIndex][columnIndex] == Green) {leds[columnIndex*displayNumberOfRows + rowIndex] = CRGB::Green;}
+        if(LEDMatrix[rowIndex][columnIndex] == Blue) {leds[columnIndex*displayNumberOfRows + rowIndex] = CRGB::Blue;}
+        if(LEDMatrix[rowIndex][columnIndex] == Red) {leds[columnIndex*displayNumberOfRows + rowIndex] = CRGB::Red;}
+        if(LEDMatrix[rowIndex][columnIndex] == Purple) {leds[columnIndex*displayNumberOfRows + rowIndex] = CRGB::Purple;}
       }
     }
   }
@@ -263,10 +276,10 @@ void outputDisplay() {
 // We update the digital display of the LED matrix
 void digitalOutputDisplay() {
   Serial.print("\n We print digitally the current theoritical state of the LED Matrix : \n");
-  for (byte i = 0; i < numberOfRows; i++) {
-    for (byte j = 0; j < numberOfColumns; j++) {
+  for (byte i = 0; i < displayNumberOfRows; i++) {
+    for (byte j = 0; j < displayNumberOfColumns; j++) {
       Serial.print(LEDMatrix[i][j]);
-      if (j < numberOfColumns - 1) {
+      if (j < displayNumberOfColumns - 1) {
         Serial.print(", ");
       }
       else {
@@ -288,8 +301,8 @@ void endGame() {
   delay(1000);
   clearLEDMatrix();
   // We light up the rows one by one, with .2 sec of delay between each
-  for (byte i = 0; i < numberOfRows; i++) {
-    for (byte j = 0; j < numberOfColumns; j++) {
+  for (byte i = 0; i < displayNumberOfRows; i++) {
+    for (byte j = 0; j < displayNumberOfColumns; j++) {
       LEDMatrix[i][j] = Red;
     }
       outputDisplay();
