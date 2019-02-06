@@ -9,9 +9,9 @@
 #include "FastLED.h"
 
 // LED MATRIX CODE
-const unsigned byte numberOfRows = 10;                          // Number of rows
-const unsigned byte numberOfColumns = 6;                       // Number of coumns
-const unsigned byte NUM_LEDS = numberOfRows * numberOfColumns; // Number of LEDs
+const byte numberOfRows = 10;                          // Number of rows
+const byte numberOfColumns = 6;                       // Number of coumns
+const byte NUM_LEDS = numberOfRows * numberOfColumns; // Number of LEDs
 
 CRGB leds[NUM_LEDS];                                          // Defining leds table for FastLed
 #define DATA_PIN 6                                            // Output pin for FastLed
@@ -32,6 +32,31 @@ byte LEDMatrix[numberOfRows][numberOfColumns] =
   {0, 0, 0, 0, 0, 0}
 };
 
+
+byte tempMap[20][20] = {
+  {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+  {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+  {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+  {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+  {1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1},
+  {1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1},
+  {1, 1, 1, 1, 0, 1, 3, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1},
+  {1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1},
+  {1, 1, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1},
+  {1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1},
+  {1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1},
+  {1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1},
+  {1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1},
+  {1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1},
+  {1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1},
+  {1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1},
+  {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+  {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+  {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+  {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
+};
+
+/*
 // To be correctly field
 // The adventurer will walk on it
 byte Map[100][12] =
@@ -137,14 +162,15 @@ byte Map[100][12] =
   {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
   {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1}
 };
+*/
 
 // Original colours for leds.
-const unsigned byte Wall = 0;
-const unsigned byte Passage = 1;
-const unsigned byte Blue = 2;
-const unsigned byte Red = 3;
-const unsigned byte Green = 4;
-const unsigned byte Purple = 5;
+const byte Wall = 0;
+const byte Passage = 1;
+const byte Blue = 2;
+const byte Red = 3;
+const byte Green = 4;
+const byte Purple = 5;
 
 
 // Pin used from the arduino
