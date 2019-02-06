@@ -32,8 +32,10 @@ byte LEDMatrix[numberOfRows][numberOfColumns] =
   {0, 0, 0, 0, 0, 0}
 };
 
+const byte mapNumberOfRows = 20;
+const byte mapNumberOfColumns = 20;
 
-byte tempMap[20][20] = {
+byte tempMap[mapNumberOfRows][mapNumberOfColumns] = {
   {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
   {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
   {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
@@ -181,12 +183,13 @@ const unsigned int downButton = A4;        // Input pin for button Down
 const unsigned int aButton = A0;           // Input pin for button A
 const unsigned int bButton = A1;           // Input pin for button B
 
-/*
+
 struct pointOnMatrix {
   int lineCoordinate;
   int columnCoordinate;
 };
-*/
+
+pointOnMatrix adventurerPositionn = {mapNumberOfRows - 4, mapNumberOfColumns - 4};
 
 unsigned long lastMillis = 0;
 
@@ -212,6 +215,7 @@ void loop() {
   outputDisplay();
   delay(1);
 }
+
 
 // Makes the whole "LEDMatrix" equals to 0, i.e. each LED is off
 void clearLEDMatrix() {
