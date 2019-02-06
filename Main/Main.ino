@@ -167,19 +167,20 @@ byte Map[100][12] =
 */
 
 // Original colours for leds.
-const byte Wall = 0;
-const byte Passage = 1;
-const byte Blue = 2;
+const byte Passage = 0;
+const byte Wall = 1;
+const byte Adventurer = 2;
+const byte Menace = 3;
 const byte Red = 3;
 const byte Green = 4;
 const byte Purple = 5;
 
 
 // Pin used from the arduino
-const unsigned int leftButton = A0;        // Input pin for button Left
-const unsigned int upButton = A1;          // Input pin for button Up
+const unsigned int leftButton = A5;        // Input pin for button Left
+const unsigned int upButton = A4;          // Input pin for button Up
 const unsigned int rightButton = A3;       // Input pin for button Right
-const unsigned int downButton = A4;        // Input pin for button Down
+const unsigned int downButton = A2;        // Input pin for button Down
 const unsigned int aButton = A0;           // Input pin for button A
 const unsigned int bButton = A1;           // Input pin for button B
 
@@ -189,14 +190,20 @@ struct pointOnMatrix {
   int columnCoordinate;
 };
 
-pointOnMatrix adventurerPosition = {mapNumberOfRows - 4, mapNumberOfColumns - 4};
+pointOnMatrix adventurerPosition = {4, 4};
 
 unsigned long lastMillis = 0;
 
-int leftButtonValue = LOW;
-int rightButtonValue = LOW;
-int lastLeftButtonValue = LOW;
-int lastRightButtonValue = LOW;
+unsigned int leftButtonValue = LOW;
+unsigned int rightButtonValue = LOW;
+unsigned int upButtonValue = LOW;
+unsigned int downButtonValue = LOW;
+
+unsigned int lastLeftButtonValue = LOW;
+unsigned int lastRightButtonValue = LOW;
+unsigned int lastUpButtonValue = LOW;
+unsigned int lastDownButtonValue = LOW;
+
 
 void setup() {
 
@@ -207,26 +214,88 @@ void setup() {
 
   // Set button pins to input
   pinMode(leftButton, INPUT);
+  pinMode(upButton, INPUT);
+  pinMode(downButton, INPUT);
   pinMode(rightButton, INPUT);
+  pinMode(aButton, INPUT);
+  pinMode(bButton, INPUT);
 }
 
 void loop() {
-  
+
+    // ----------------------------------------------------------
+    // Checking if a button has been pushed, reacting accordingly
+    // ----------------------------------------------------------
+    
+    leftButtonValue = analogRead(leftButton);
+    if (leftButtonValue < 200 && lastLeftButtonValue > 800) {
+      // If the button 1 has been pressed, we go left
+      moveAdventurerLeft();
+    }
+    lastLeftButtonValue = leftButtonValue; // And we update what we read just after
+
+    upButtonValue = analogRead(upButton);
+    if (upButtonValue < 200 && lastUpButtonValue > 800) { 
+     // If the button 2 has been pressed, we go right
+        moveAdventurerUp();
+    }
+    lastUpButtonValue = upButtonValue; // And we update what we read just after
+
+    rightButtonValue = analogRead(rightButton);
+    if (rightButtonValue < 200 && lastRightButtonValue > 800) { 
+     // If the button 2 has been pressed, we go right
+        moveAdventurerRight();
+    }
+    lastRightButtonValue = rightButtonValue; // And we update what we read just after
+
+    downButtonValue = analogRead(downButton);
+    if (downButtonValue < 200 && lastDownButtonValue > 800) { 
+     // If the button 2 has been pressed, we go right
+        moveAdventurerDown();
+    }
+    lastDownButtonValue = downButtonValue; // And we update what we read just after
+
+
+  // Center map and display result
+  centerMap();
   outputDisplay();
   delay(1);
 }
 
+void moveAdventurerLeft() {
+  if(tempMap[adventurerPosition.lineCoordinate][adventurerPosition.columnCoordinate -1] != Wall) {
+    adventurerPosition.columnCoordinate--;
+  }
+}
+
+void moveAdventurerUp() {
+  if(tempMap[adventurerPosition.lineCoordinate -1][adventurerPosition.columnCoordinate] != Wall) {
+    adventurerPosition.lineCoordinate--;
+  }
+}
+
+void moveAdventurerRight() {
+  if(tempMap[adventurerPosition.lineCoordinate][adventurerPosition.columnCoordinate +1] != Wall) {
+    adventurerPosition.columnCoordinate++;
+  }
+}
+
+void moveAdventurerDown() {
+  if(tempMap[adventurerPosition.lineCoordinate +1][adventurerPosition.columnCoordinate] != Wall) {
+    adventurerPosition.lineCoordinate++;
+  }
+}
 
 
 void centerMap() {
-  for (byte i = 0; i < displayNumberOfRows; i++)  {
-    for (byte j = 0; j < displayNumberOfColumns; j++) {
-
-      
+  for (int i = 0; i < displayNumberOfRows; i++)  {
+    for (int j = 0; j < displayNumberOfColumns; j++) {
+      LEDMatrix[i][j] = tempMap[adventurerPosition.lineCoordinate-4+i][adventurerPosition.columnCoordinate-4+j];
+      if(i == 4 && j == 4) {
+        LEDMatrix[i][j] = Adventurer;
+      } 
     }
   }
-
-  
 }
 
 
@@ -250,20 +319,20 @@ void outputDisplay() {
       // If we're on an even column, we're fine, everything is straightfoward
       if(columnIndex%2 == 0) {
         
-        if(LEDMatrix[rowIndex][columnIndex] == Wall) {leds[(columnIndex + 1)*displayNumberOfRows - rowIndex - 1] = CRGB::White;}
-        if(LEDMatrix[rowIndex][columnIndex] == Passage) {leds[(columnIndex + 1)*displayNumberOfRows - rowIndex - 1] = CRGB::Black;}
+        if(LEDMatrix[rowIndex][columnIndex] == Wall) {leds[(columnIndex + 1)*displayNumberOfRows - rowIndex - 1] = CRGB::Black;}
+        if(LEDMatrix[rowIndex][columnIndex] == Passage) {leds[(columnIndex + 1)*displayNumberOfRows - rowIndex - 1] = CRGB::White;}
         if(LEDMatrix[rowIndex][columnIndex] == Green) {leds[(columnIndex + 1)*displayNumberOfRows - rowIndex - 1] = CRGB::Green;}
-        if(LEDMatrix[rowIndex][columnIndex] == Blue) {leds[(columnIndex + 1)*displayNumberOfRows - rowIndex - 1] = CRGB::Blue;}
-        if(LEDMatrix[rowIndex][columnIndex] == Red) {leds[(columnIndex + 1)*displayNumberOfRows - rowIndex - 1] = CRGB::Red;}
+        if(LEDMatrix[rowIndex][columnIndex] == Adventurer) {leds[(columnIndex + 1)*displayNumberOfRows - rowIndex - 1] = CRGB::Blue;}
+        if(LEDMatrix[rowIndex][columnIndex] == Menace) {leds[(columnIndex + 1)*displayNumberOfRows - rowIndex - 1] = CRGB::Red;}
         if(LEDMatrix[rowIndex][columnIndex] == Purple) {leds[(columnIndex + 1)*displayNumberOfRows - rowIndex - 1] = CRGB::Purple;}
       }
       // If we're on an uneven column, we do a mathematical trick to invert it
       else if(columnIndex%2 == 1) {
-        if(LEDMatrix[rowIndex][columnIndex] == Wall) {leds[columnIndex*displayNumberOfRows + rowIndex] = CRGB::White;}
-        if(LEDMatrix[rowIndex][columnIndex] == Passage) {leds[columnIndex*displayNumberOfRows + rowIndex] = CRGB::Black;}
+        if(LEDMatrix[rowIndex][columnIndex] == Wall) {leds[columnIndex*displayNumberOfRows + rowIndex] = CRGB::Black;}
+        if(LEDMatrix[rowIndex][columnIndex] == Passage) {leds[columnIndex*displayNumberOfRows + rowIndex] = CRGB::White;}
         if(LEDMatrix[rowIndex][columnIndex] == Green) {leds[columnIndex*displayNumberOfRows + rowIndex] = CRGB::Green;}
-        if(LEDMatrix[rowIndex][columnIndex] == Blue) {leds[columnIndex*displayNumberOfRows + rowIndex] = CRGB::Blue;}
-        if(LEDMatrix[rowIndex][columnIndex] == Red) {leds[columnIndex*displayNumberOfRows + rowIndex] = CRGB::Red;}
+        if(LEDMatrix[rowIndex][columnIndex] == Adventurer) {leds[columnIndex*displayNumberOfRows + rowIndex] = CRGB::Blue;}
+        if(LEDMatrix[rowIndex][columnIndex] == Menace) {leds[columnIndex*displayNumberOfRows + rowIndex] = CRGB::Red;}
         if(LEDMatrix[rowIndex][columnIndex] == Purple) {leds[columnIndex*displayNumberOfRows + rowIndex] = CRGB::Purple;}
       }
     }
@@ -303,7 +372,7 @@ void endGame() {
   // We light up the rows one by one, with .2 sec of delay between each
   for (byte i = 0; i < displayNumberOfRows; i++) {
     for (byte j = 0; j < displayNumberOfColumns; j++) {
-      LEDMatrix[i][j] = Red;
+      LEDMatrix[i][j] = Menace;
     }
       outputDisplay();
     
