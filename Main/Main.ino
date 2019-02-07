@@ -35,7 +35,7 @@ byte LEDMatrix[displayNumberOfRows][displayNumberOfColumns] =
 const byte mapNumberOfRows = 20;
 const byte mapNumberOfColumns = 20;
 
-byte tempMap[mapNumberOfRows][mapNumberOfColumns] = {
+byte gameMap[mapNumberOfRows][mapNumberOfColumns] = {
   {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
   {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
   {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
@@ -58,113 +58,28 @@ byte tempMap[mapNumberOfRows][mapNumberOfColumns] = {
   {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
 };
 
-/*
-// To be correctly field
-// The adventurer will walk on it
-byte Map[100][12] =
-{
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1},
-  {0, 1, 1, 1, 3, 1, 0, 1, 1, 1, 3, 1}
+bool gameMapBool[mapNumberOfRows][mapNumberOfColumns] = {
+  {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
+  {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
+  {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
+  {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
+  {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
+  {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
+  {false, false, false, false, false, false, true, false, false, false, false, false, false, false, false, false, false, false, false, false},
+  {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
+  {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
+  {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
+  {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
+  {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
+  {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
+  {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
+  {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
+  {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
+  {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
+  {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
+  {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
+  {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false}
 };
-*/
 
 // Original colours for leds.
 const byte Passage = 0;
@@ -263,25 +178,25 @@ void loop() {
 }
 
 void moveAdventurerLeft() {
-  if(tempMap[adventurerPosition.lineCoordinate][adventurerPosition.columnCoordinate -1] != Wall) {
+  if(gameMap[adventurerPosition.lineCoordinate][adventurerPosition.columnCoordinate -1] != Wall) {
     adventurerPosition.columnCoordinate--;
   }
 }
 
 void moveAdventurerUp() {
-  if(tempMap[adventurerPosition.lineCoordinate -1][adventurerPosition.columnCoordinate] != Wall) {
+  if(gameMap[adventurerPosition.lineCoordinate -1][adventurerPosition.columnCoordinate] != Wall) {
     adventurerPosition.lineCoordinate--;
   }
 }
 
 void moveAdventurerRight() {
-  if(tempMap[adventurerPosition.lineCoordinate][adventurerPosition.columnCoordinate +1] != Wall) {
+  if(gameMap[adventurerPosition.lineCoordinate][adventurerPosition.columnCoordinate +1] != Wall) {
     adventurerPosition.columnCoordinate++;
   }
 }
 
 void moveAdventurerDown() {
-  if(tempMap[adventurerPosition.lineCoordinate +1][adventurerPosition.columnCoordinate] != Wall) {
+  if(gameMap[adventurerPosition.lineCoordinate +1][adventurerPosition.columnCoordinate] != Wall) {
     adventurerPosition.lineCoordinate++;
   }
 }
@@ -290,12 +205,45 @@ void moveAdventurerDown() {
 void centerMap() {
   for (int i = 0; i < displayNumberOfRows; i++)  {
     for (int j = 0; j < displayNumberOfColumns; j++) {
-      LEDMatrix[i][j] = tempMap[adventurerPosition.lineCoordinate-4+i][adventurerPosition.columnCoordinate-4+j];
+      LEDMatrix[i][j] = gameMap[adventurerPosition.lineCoordinate-4+i][adventurerPosition.columnCoordinate-4+j];
       if(i == 4 && j == 4) {
         LEDMatrix[i][j] = Adventurer;
       } 
     }
   }
+}
+
+// ISSUE HERE : IT WILL FULLY GROW AT ONCE
+// TEMPBOOLTABLE needed ?
+void growingMenace() {
+  // We check which case spawn a growing of the menace
+  for(byte i = 0; i < mapNumberOfRows; i++) {
+    for(byte j = 0; j < mapNumberOfColumns; j++) {
+      if(gameMapBool[i][j]) {
+        
+        // For cases spawning one, we make it grow on existing passages (but not diagonals !)
+        if(gameMap[i + 1][j] != Wall) {
+           gameMap[i + 1][j] = Menace;
+           gameMapBool[i + 1][j] = false;
+        }
+        if(gameMap[i - 1][j] != Wall) {
+           gameMap[i - 1][j] = Menace;
+           gameMapBool[i - 1][j] = false;
+        }
+        if(gameMap[i][j + 1] != Wall) {
+           gameMap[i][j + 1] = Menace;
+           gameMapBool[i][j + 1] = false;
+        }
+        if(gameMap[i][j - 1] != Wall) {
+           gameMap[i][j - 1] = Menace;
+           gameMapBool[i][j - 1] = false;
+        }
+        // The menace which needed to grow has grown, it doesn't need to re-grow
+        gameMapBool[i][j] = false;
+      }
+    }
+  }
+  
 }
 
 
