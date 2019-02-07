@@ -81,6 +81,29 @@ bool gameMapBool[mapNumberOfRows][mapNumberOfColumns] = {
   {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false}
 };
 
+bool gameMapBoolTemp[mapNumberOfRows][mapNumberOfColumns] = {
+  {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
+  {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
+  {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
+  {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
+  {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
+  {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
+  {false, false, false, false, false, false, true, false, false, false, false, false, false, false, false, false, false, false, false, false},
+  {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
+  {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
+  {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
+  {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
+  {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
+  {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
+  {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
+  {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
+  {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
+  {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
+  {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
+  {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
+  {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false}
+};
+
 // Original colours for leds.
 const byte Passage = 0;
 const byte Wall = 1;
@@ -213,8 +236,7 @@ void centerMap() {
   }
 }
 
-// ISSUE HERE : IT WILL FULLY GROW AT ONCE
-// TEMPBOOLTABLE needed ?
+
 void growingMenace() {
   // We check which case spawn a growing of the menace
   for(byte i = 0; i < mapNumberOfRows; i++) {
@@ -238,12 +260,18 @@ void growingMenace() {
            gameMap[i][j - 1] = Menace;
            gameMapBool[i][j - 1] = false;
         }
-        // The menace which needed to grow has grown, it doesn't need to re-grow
-        gameMapBool[i][j] = false;
+        // The menace which needed to grow has grown, it doesn't need to re-grow in the future
+        gameMapBoolTemp[i][j] = false;
       }
     }
   }
-  
+
+  // Now that we have completed the growth, we update the bool matrix
+  for(byte i = 0; i < mapNumberOfRows; i++) {
+    for(byte j = 0; j < mapNumberOfColumns; j++) {
+      gameMapBool[i][j] = gameMapBoolTemp[i][j];
+    }
+  }
 }
 
 
