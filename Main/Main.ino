@@ -18,19 +18,7 @@ CRGB leds[NUM_LEDS];                                          // Defining leds t
 
 // LED Matrix
 // top column is from 0 to 7, bottom one from 56 to 63 (for a 8x8 matrix)
-byte LEDMatrix[displayNumberOfRows][displayNumberOfColumns] =
-{
-  {0, 1, 1, 1, 3, 1},
-  {0, 0, 1, 3, 3, 1},
-  {1, 0, 1, 0, 1, 1},
-  {1, 0, 0, 0, 0, 1},
-  {1, 1, 1, 1, 0, 1},
-  {1, 0, 0, 2, 0, 1},
-  {1, 0, 1, 1, 0, 1},
-  {0, 0, 1, 0, 0, 1},
-  {1, 1, 1, 0, 1, 1},
-  {0, 0, 0, 0, 0, 0}
-};
+byte LEDMatrix[displayNumberOfRows][displayNumberOfColumns];
 
 const byte mapNumberOfRows = 20;
 const byte mapNumberOfColumns = 20;
@@ -131,6 +119,7 @@ struct pointOnMatrix {
 pointOnMatrix adventurerPosition = {4, 4};
 
 unsigned long lastMillis = 0;
+unsigned const int growthSpeed = 1500;  // In miliseconds, every how much will the menace grow
 
 unsigned int leftButtonValue = LOW;
 unsigned int rightButtonValue = LOW;
@@ -194,6 +183,11 @@ void loop() {
     lastDownButtonValue = downButtonValue; // And we update what we read just after
 
 
+  // Lets the menace grow, but not too fast
+  if(millis() - lastMillis > growthSpeed) {
+    growingMenace();
+  }
+  
   // Center map and display result
   centerMap();
   outputDisplay();
