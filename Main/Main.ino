@@ -76,7 +76,7 @@ bool gameMapBoolTemp[mapNumberOfRows][mapNumberOfColumns] = {
   {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
   {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
   {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
-  {false, false, false, false, false, false, true, false, false, false, false, false, false, false, false, false, false, false, false, false},
+  {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
   {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
   {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
   {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
@@ -186,6 +186,7 @@ void loop() {
   // Lets the menace grow, but not too fast
   if(millis() - lastMillis > growthSpeed) {
     growingMenace();
+    lastMillis = millis();
   }
   
   // Center map and display result
@@ -240,19 +241,19 @@ void growingMenace() {
         // For cases spawning one, we make it grow on existing passages (but not diagonals !)
         if(gameMap[i + 1][j] != Wall) {
            gameMap[i + 1][j] = Menace;
-           gameMapBool[i + 1][j] = false;
+           gameMapBoolTemp[i + 1][j] = true;
         }
         if(gameMap[i - 1][j] != Wall) {
            gameMap[i - 1][j] = Menace;
-           gameMapBool[i - 1][j] = false;
+           gameMapBoolTemp[i - 1][j] = true;
         }
         if(gameMap[i][j + 1] != Wall) {
            gameMap[i][j + 1] = Menace;
-           gameMapBool[i][j + 1] = false;
+           gameMapBoolTemp[i][j + 1] = true;
         }
         if(gameMap[i][j - 1] != Wall) {
            gameMap[i][j - 1] = Menace;
-           gameMapBool[i][j - 1] = false;
+           gameMapBoolTemp[i][j - 1] = true;
         }
         // The menace which needed to grow has grown, it doesn't need to re-grow in the future
         gameMapBoolTemp[i][j] = false;
