@@ -9,9 +9,9 @@
 #include "FastLED.h"
 
 // LED MATRIX CODE
-const byte displayNumberOfRows = 10;                          // Number of rows
-const byte displayNumberOfColumns = 6;                       // Number of coumns
-const byte NUM_LEDS = displayNumberOfRows * displayNumberOfColumns; // Number of LEDs
+#define displayNumberOfRows 10                          // Number of rows
+#define displayNumberOfColumns 6                       // Number of coumns
+#define NUM_LEDS displayNumberOfRows * displayNumberOfColumns // Number of LEDs
 
 CRGB leds[NUM_LEDS];                                          // Defining leds table for FastLed
 #define DATA_PIN 6                                            // Output pin for FastLed
@@ -20,8 +20,8 @@ CRGB leds[NUM_LEDS];                                          // Defining leds t
 // top column is from 0 to 7, bottom one from 56 to 63 (for a 8x8 matrix)
 byte LEDMatrix[displayNumberOfRows][displayNumberOfColumns];
 
-const byte mapNumberOfRows = 20;
-const byte mapNumberOfColumns = 20;
+#define mapNumberOfRows 20
+#define mapNumberOfColumns 20
 
 byte gameMap[mapNumberOfRows][mapNumberOfColumns] = {
   {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
@@ -46,6 +46,7 @@ byte gameMap[mapNumberOfRows][mapNumberOfColumns] = {
   {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
 };
 
+/* Necessary for the size-saving but functional and computation saving growing menace
 bool gameMapBool[mapNumberOfRows][mapNumberOfColumns] = {
   {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
   {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
@@ -91,6 +92,7 @@ bool gameMapBoolTemp[mapNumberOfRows][mapNumberOfColumns] = {
   {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
   {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false}
 };
+*/
 
 // Original colours for leds.
 const byte Passage = 0;
@@ -103,12 +105,12 @@ const byte Purple = 5;
 
 
 // Pin used from the arduino
-const unsigned int leftButton = A5;        // Input pin for button Left
-const unsigned int upButton = A4;          // Input pin for button Up
-const unsigned int rightButton = A3;       // Input pin for button Right
-const unsigned int downButton = A2;        // Input pin for button Down
-const unsigned int aButton = A0;           // Input pin for button A
-const unsigned int bButton = A1;           // Input pin for button B
+#define leftButton A5        // Input pin for button Left
+#define upButton A4          // Input pin for button Up
+#define rightButton A3       // Input pin for button Right
+#define downButton A2        // Input pin for button Down
+#define aButton A0           // Input pin for button A
+#define bButton A1           // Input pin for button B
 
 
 struct pointOnMatrix {
@@ -231,7 +233,7 @@ void centerMap() {
   }
 }
 
-
+/* Saving computing power but size costly, functional "growing menace"
 void growingMenace() {
   // We check which case spawn a growing of the menace
   for(byte i = 0; i < mapNumberOfRows; i++) {
@@ -265,6 +267,41 @@ void growingMenace() {
   for(byte i = 0; i < mapNumberOfRows; i++) {
     for(byte j = 0; j < mapNumberOfColumns; j++) {
       gameMapBool[i][j] = gameMapBoolTemp[i][j];
+    }
+  }
+}
+*/
+
+void growingMenace() {
+  bool skipping = false;
+  byte skippingLine;
+  byte skippingColumn;
+  
+  // We check which case spawn a growing of the menace
+  for(byte i = 0; i < mapNumberOfRows; i++) {
+    for(byte j = 0; j < mapNumberOfColumns; j++) {
+      if(i > skippingLine + 1 || j > skippingColumn + 1) {
+        skipping = false;
+      }
+      
+      if(gameMap[i][j] == Menace && !skipping) {
+        // For cases spawning one, we make it grow on existing passages (but not diagonals !)
+        if(gameMap[i + 1][j] != Wall) {
+           gameMap[i + 1][j] = Menace;
+        }
+        if(gameMap[i - 1][j] != Wall) {
+           gameMap[i - 1][j] = Menace;
+        }
+        if(gameMap[i][j + 1] != Wall) {
+           gameMap[i][j + 1] = Menace;
+        }
+        if(gameMap[i][j - 1] != Wall) {
+           gameMap[i][j - 1] = Menace;
+        }
+        skipping = true;
+        skippingLine = i;
+        skippingColumn = j;
+      }
     }
   }
 }
