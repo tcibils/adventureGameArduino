@@ -7,6 +7,7 @@
 
 #include <TimerOne.h>
 #include "FastLED.h"
+#include <avr/pgmspace.h>
 
 // LED MATRIX CODE
 #define displayNumberOfRows 10                          // Number of rows
@@ -23,7 +24,8 @@ byte LEDMatrix[displayNumberOfRows][displayNumberOfColumns];
 #define mapNumberOfRows 20
 #define mapNumberOfColumns 20
 
-byte gameMap[mapNumberOfRows][mapNumberOfColumns] = {
+// With PROGMEM, 200 x 120 is feasible, but not 200 x 20
+const byte PROGMEM gameMap[mapNumberOfRows][mapNumberOfColumns] = {
   {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
   {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
   {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
@@ -187,7 +189,7 @@ void loop() {
 
   // Lets the menace grow, but not too fast
   if(millis() - lastMillis > growthSpeed) {
-    growingMenace();
+//     growingMenace();
     lastMillis = millis();
   }
   
@@ -272,6 +274,7 @@ void growingMenace() {
 }
 */
 
+/*
 void growingMenace() {
   bool skipping = false;
   byte skippingLine;
@@ -305,6 +308,7 @@ void growingMenace() {
     }
   }
 }
+*/
 
 
 // Makes the whole "LEDMatrix" equals to 0, i.e. each LED is off
