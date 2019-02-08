@@ -24,7 +24,7 @@ byte LEDMatrix[displayNumberOfRows][displayNumberOfColumns];
 #define mapNumberOfRows 20
 #define mapNumberOfColumns 20
 
-// With PROGMEM, 200 x 120 is feasible, but not 200 x 20
+// With PROGMEM, 200 x 120 is feasible, but not 200 x 200
 const byte PROGMEM gameMap[mapNumberOfRows][mapNumberOfColumns] = {
   {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
   {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
